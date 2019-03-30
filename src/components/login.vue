@@ -12,16 +12,18 @@
       >
         <!-- 用prop 绑定在用户名上 -->
         <el-form-item label="用户名" prop="username">
-          <!-- 双向数据绑定 -->
+          <!-- 双向数据绑定 因为是在对象里面的  所以用点语法点进去-->
           <el-input v-model="loginForm.username"></el-input>
         </el-form-item>
         <!-- 用prop 绑定在密码 -->
         <el-form-item label="密码" prop="password">
-          <!-- 双向数据绑定 -->
+          <!-- 双向数据绑定 因为是在对象里面的  所以用点语法点进去-->
           <el-input v-model="loginForm.password"></el-input>
         </el-form-item>
         <el-form-item>
+            <!-- 绑定提交按钮 前面是下面的方法名(实参) -->
           <el-button type="primary"  @click="submit('loginForm')">登录</el-button>
+          <!-- 绑定重置按钮 前面是下面的方法名(实参) -->
           <el-button type="success"  @click="resetForm('loginForm')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -58,17 +60,22 @@ export default {
       }
     };
   },
+//   方法
   methods: {
+    //   提交按钮 方法(形参)
       submit(formName) {
+        //   validate是验证的方法
         this.$refs[formName].validate(valid => {
           if (valid) {
-            
+            // 成功
           } else {
+            //   失败就提示用户
             this.$message.error('数据格式错误,请按照规则填写')
             return false;
           }
         });
       },
+    //   重置按钮 方法(形参)
       resetForm(formName) {
         this.$refs[formName].resetFields();
       }
@@ -90,9 +97,9 @@ export default {
     padding: 35px;
     box-sizing: border-box;
     border-radius: 10px;
-    .my-btn {
-      width: 100%;
-    }
+    // .my-btn {
+    //   width: 100%;
+    // }
   }
 }
 </style>
