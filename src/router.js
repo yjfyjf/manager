@@ -8,15 +8,27 @@ Vue.use(VueRouter)
 import login from './components/login.vue'
 // 引入首页
 import index from './components/index.vue'
+// 引入首页右侧的列表
+import users from './components/users.vue'
 // 组件
 let routes = [
+    // 登录页
     {
         path:'/',
         component:login
     },
+    // 首页
     {
         path:'/index',
-        component:index
+        component:index,
+        // 嵌套一个路由 
+        children:[
+            {
+                // 首页右侧的列表
+                path:'users',
+                component:users
+            }
+        ]
     }
 ]
 // 实例组件

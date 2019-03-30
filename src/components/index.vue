@@ -17,9 +17,7 @@
       <el-aside width="200px" class="aside">
           <el-menu
       default-active="2"
-      class="el-menu-vertical-demo"
-      @open="handleOpen"
-      @close="handleClose">
+      class="el-menu-vertical-demo">
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-location"></i>
@@ -33,7 +31,9 @@
     </el-menu>
       </el-aside>
       <!-- 右边 -->
-      <el-main class="main">Main</el-main>
+      <el-main class="main">
+          <router-view></router-view>
+      </el-main>
     </el-container>
   </el-container>
 </template>
@@ -54,7 +54,8 @@ export default {};
         }
         .main{
             flex: 1;
-            background: gray;
+            background: #e9eef3;
+            padding-top:0;
         }
     }
     .my-herder{
