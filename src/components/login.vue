@@ -21,7 +21,8 @@
           <el-input v-model="loginForm.password"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" class="my-btn">立即创建</el-button>
+          <el-button type="primary"  @click="submit('loginForm')">登录</el-button>
+          <el-button type="success"  @click="resetForm('loginForm')">重置</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -56,7 +57,22 @@ export default {
         ]
       }
     };
-  }
+  },
+  methods: {
+      submit(formName) {
+        this.$refs[formName].validate(valid => {
+          if (valid) {
+            
+          } else {
+            this.$message.error('数据格式错误,请按照规则填写')
+            return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      }
+    }
 };
 </script>
 
