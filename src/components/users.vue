@@ -28,8 +28,8 @@
       </el-table-column>
       <el-table-column prop="address" label="操作" width="240">
         <el-button type="primary" plain icon="el-icon-edit"></el-button>
-        <el-button type="danger" plain icon="el-icon-share"></el-button>
-        <el-button type="primary" icon="el-icon-delete"></el-button>
+        <el-button type="danger" plain icon="el-icon-delete"></el-button>
+        <el-button type="warning" plain icon="el-icon-check"></el-button>
       </el-table-column>
     </el-table>
   </div>
