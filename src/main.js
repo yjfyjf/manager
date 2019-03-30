@@ -5,6 +5,8 @@ import App from './App.vue'
 // 引入router 路由
 import router from './router.js'
 
+// 引入全局样式
+import './assets/base.scss'
 // 导入饿了么ui
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
