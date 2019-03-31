@@ -78,10 +78,10 @@ export default {
             // 成功
             this.$message.success(res.data.meta.msg)
             // 用token 保持会话记录
-            window.sessionStorage.setItem('token',res.data.meta.msg)
+            window.sessionStorage.setItem('token',res.data.data.token)
             // 跳转到首页
             this.$router.push('/')
-          }else{
+          }else{  
             this.$message.error('数据格式错误,请根据提示修改')
           }
           

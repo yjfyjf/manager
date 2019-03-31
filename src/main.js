@@ -8,15 +8,44 @@ import router from './router.js'
 // 引入全局样式
 import './assets/base.scss'
 
+// 导入饿了么ui
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+Vue.use(ElementUI);
+
+
 // 引入axios
 import axios from 'axios'
 Vue.prototype.$axios = axios
 // 设置基地址
 axios.defaults.baseURL  = 'http://localhost:8888/api/private/v1/'
-// 导入饿了么ui
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-Vue.use(ElementUI);
+
+// 拦截器 数据发送之前拦截
+// Add a request interceptor
+axios.interceptors.request.use(function (config) {
+  // Do something before request is sent
+  // 同意设置token
+  config.headers.Authorization = window.sessionStorage.getItem("token")
+  return config;
+}, function (error) {
+  // Do something with request error
+  return Promise.reject(error);
+});
+
+// 拦截器 数据处理自去年拦截
+// Add a response interceptor
+axios.interceptors.response.use(function (response) {
+
+  // 统一设置弹窗
+  Vue.prototype.$message.success(response.data.meta.msg)
+  // Do something with response data
+  return response;
+}, function (error) {
+  // Do something with response error
+  return Promise.reject(error);
+});
+
+
 
 
 Vue.config.productionTip = false

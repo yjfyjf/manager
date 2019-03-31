@@ -9,8 +9,13 @@
     <!-- 输入框 -->
     <el-row>
       <el-col :span="6">
-        <el-input placeholder="请输入内容" class="input-with-select">
-          <el-button slot="append" icon="el-icon-search"></el-button>
+        <el-input
+          placeholder="请输入内容"
+          v-model="sendData.query"
+          class="input-with-select"
+          @keyup.native.enter="search"
+        >
+          <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
         </el-input>
       </el-col>
       <el-col :span="12">
@@ -18,20 +23,43 @@
       </el-col>
     </el-row>
     <!-- 表格 -->
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="num" label="序号" width="80" colspan="1"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="100"></el-table-column>
-      <el-table-column prop="date" label="邮箱" width="280"></el-table-column>
-      <el-table-column prop="address" label="电话" width="280"></el-table-column>
-      <el-table-column prop="user" label="用户状态" width="80">
-        <el-switch v-model="value" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+    <el-table :data="userlist" style="width: 100%" border>
+      <el-table-column type="index"></el-table-column>
+      <el-table-column prop="username" label="姓名" width="100"></el-table-column>
+      <el-table-column prop="email" label="邮箱" width="280"></el-table-column>
+      <el-table-column prop="mobile" label="电话" width="280"></el-table-column>
+      <!-- 判断开关 -->
+      <el-table-column prop="ms-state" label="用户状态" width="80">
+        <template slot-scope="scope">
+          <el-switch
+            @change="statechange(scope.row)"
+            v-model="scope.row.mg_state"
+            active-color="#13ce66"
+            inactive-color="#ff4949"
+          ></el-switch>
+        </template>
       </el-table-column>
-      <el-table-column prop="address" label="操作" width="240">
-        <el-button type="primary" plain icon="el-icon-edit"></el-button>
-        <el-button type="danger" plain icon="el-icon-delete"></el-button>
-        <el-button type="warning" plain icon="el-icon-check"></el-button>
+
+      <el-table-column label="操作" width="240">
+        <template slot-scope="scope">
+          <el-button
+            size="medium"
+            type="primary"
+            plain
+            icon="el-icon-edit"
+            @click="handleEdit(scope.$index,scope.row)"
+          ></el-button>
+          <el-button size="medium" type="danger" plain icon="el-icon-delete"></el-button>
+          <el-button size="medium" type="warning" plain icon="el-icon-check"></el-button>
+        </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      :page-sizes="[5, 10, 15, 20]"
+      :page-size="sendData.pagesize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    ></el-pagination>
   </div>
 </template>
 
@@ -39,33 +67,42 @@
 export default {
   data() {
     return {
-      tableData: [
-        {
-          num: "1",
-          name: "王小虎",
-          date: "2016-05-02",
-          address: "12345678900"
-        },
-        {
-          num: "2",
-          name: "王小虎",
-          date: "2016-05-04",
-          address: "12345678900"
-        },
-        {
-          num: "3",
-          name: "王小虎",
-          date: "2016-05-01",
-          address: "12345678900"
-        },
-        {
-          num: "4",
-          name: "王小虎",
-          date: "2016-05-03",
-          address: "12345678900"
-        }
-      ]
+      // 总条数
+      total: 0,
+      sendData: {
+        query: "",
+        pagesize: 10,
+        pagenum: 1
+      },
+      // 用户数组
+      userlist: []
     };
+  },
+  methods: {
+    handleEdit(index, row) {
+      console.log(index);
+      console.log(row);
+    },
+    // 搜索调用
+    async search() {
+      let res = await this.$axios.get("users", {
+        // headers: { Authorization: window.sessionStorage.getItem("token") },
+        params: this.sendData
+      });
+      console.log(res);
+      this.total = res.data.data.total;
+      this.userlist = res.data.data.users;
+    },
+    // 调用接口修改用户状
+    statechange(row) {
+      console.log(row);
+
+      this.$axios.put(`users/${row.id}/state/${row.msg_state}`);
+    }
+  },
+
+  created() {
+    this.search();
   }
 };
 </script>
