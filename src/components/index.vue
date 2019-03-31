@@ -9,7 +9,7 @@
         <h2>皇家后台管理系统</h2>
         </el-col>
         <el-col :span="2">
-        <el-button type="success" class="btn">退出</el-button>
+        <el-button type="success" class="btn" @click="logout">退出</el-button>
         </el-col>
     </el-header>
     <el-container class="container">
@@ -39,7 +39,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    logout(){
+      window.sessionStorage.removeItem('token')
+      this.$router.push('/login')
+    }
+  },
+};
 </script>
 
 <style lang="scss">

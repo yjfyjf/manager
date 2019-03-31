@@ -18,7 +18,7 @@
         <!-- 用prop 绑定在密码 -->
         <el-form-item label="密码" prop="password">
           <!-- 双向数据绑定 因为是在对象里面的  所以用点语法点进去-->
-          <el-input v-model="loginForm.password"></el-input>
+          <el-input v-model="loginForm.password" @keyup.native.enter="submit('loginForm')"></el-input>
         </el-form-item>
         <el-form-item>
             <!-- 绑定提交按钮 前面是下面的方法名(实参) -->
@@ -65,9 +65,26 @@ export default {
     //   提交按钮 方法(形参)
       submit(formName) {
         //   validate是验证的方法
-        this.$refs[formName].validate(valid => {
+        // 调接口验证用户名和密码
+        this.$refs[formName].validate(async valid => {
           if (valid) {
+            // 成功 用promise 的方法
+          let res = await this.$axios.post('login',this.loginForm)
+          console.log(res);
+          if (res.data.meta.status === 400) {
+            // 失败
+            this.$message.error(res.data.meta.msg)
+          }else if(res.data.meta.status === 200){
             // 成功
+            this.$message.success(res.data.meta.msg)
+            // 用token 保持会话记录
+            window.sessionStorage.setItem('token',res.data.meta.msg)
+            // 跳转到首页
+            this.$router.push('/')
+          }else{
+            this.$message.error('数据格式错误,请根据提示修改')
+          }
+          
           } else {
             //   失败就提示用户
             this.$message.error('数据格式错误,请按照规则填写')

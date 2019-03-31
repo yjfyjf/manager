@@ -14,12 +14,12 @@ import users from './components/users.vue'
 let routes = [
     // 登录页
     {
-        path:'/',
+        path:'/login',
         component:login
     },
     // 首页
     {
-        path:'/index',
+        path:'/',
         component:index,
         // 嵌套一个路由 
         children:[
