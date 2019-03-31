@@ -37,7 +37,12 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function (response) {
 
   // 统一设置弹窗
-  Vue.prototype.$message.success(response.data.meta.msg)
+  if ([200,201,204].indexOf(response.data.meta.status)!=-1) {
+    Vue.prototype.$message.success(response.data.meta.msg)
+  }else{
+    Vue.prototype.$message.warning(response.data.meta.msg)
+  }
+  
   // Do something with response data
   return response;
 }, function (error) {
