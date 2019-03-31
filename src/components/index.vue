@@ -46,6 +46,14 @@ export default {
       this.$router.push('/login')
     }
   },
+  beforeCreate() {
+    if (window.sessionStorage.getItem('token')) {
+      
+    }else{
+      this.$message.error("不登录弄死你")
+      this.$router.push('/login')
+    }
+  },
 };
 </script>
 
