@@ -66,11 +66,14 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页器 -->
     <el-pagination
       :page-sizes="[5, 10, 15, 20]"
       :page-size="sendData.pagesize"
       layout="total, sizes, prev, pager, next, jumper"
       :total="total"
+      @current-change="currentchange"
+      @size-change="sizechange"
     ></el-pagination>
     <!-- 点击新增弹框 -->
     <el-dialog title="添加用户" :visible.sync="addFormVisible">
@@ -298,6 +301,16 @@ export default {
         this.search();
       }
       console.log(res);
+    },
+    // 分页器
+    currentchange(current){
+      this.sendData.pagenum = current
+      this.search()
+    },
+    // 分页器
+    sizechange(size){
+      this.sendData.pagesize = size
+      this.search()
     }
   },
   created() {
