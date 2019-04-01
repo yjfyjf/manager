@@ -24,7 +24,7 @@ axios.defaults.baseURL  = 'http://localhost:8888/api/private/v1/'
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {
   // Do something before request is sent
-  // 同意设置token
+  // 统一设置token
   config.headers.Authorization = window.sessionStorage.getItem("token")
   return config;
 }, function (error) {
@@ -38,8 +38,10 @@ axios.interceptors.response.use(function (response) {
 
   // 统一设置弹窗
   if ([200,201,204].indexOf(response.data.meta.status)!=-1) {
+    // 请求成功 后弹出的框
     Vue.prototype.$message.success(response.data.meta.msg)
   }else{
+    // 请求失败后弹出的框
     Vue.prototype.$message.warning(response.data.meta.msg)
   }
   
