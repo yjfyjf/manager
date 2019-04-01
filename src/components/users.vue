@@ -302,14 +302,18 @@ export default {
       }
       console.log(res);
     },
-    // 分页器
+    // 首页用户列表分页器
     currentchange(current){
+      //直接调用data里面存的数据赋值
       this.sendData.pagenum = current
+      // 重新加载页面
       this.search()
     },
-    // 分页器
+    // 首页用户列表分页器
     sizechange(size){
+      // 直接调用data里面存的数据赋值
       this.sendData.pagesize = size
+      // 重新加载页面
       this.search()
     }
   },
