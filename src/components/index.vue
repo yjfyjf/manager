@@ -21,10 +21,12 @@
       <el-submenu index="1">
         <template slot="title">
           <i class="el-icon-location"></i>
-          <span>导航一</span>
+          <span>用户管理</span>
         </template>
         <el-menu-item-group>
-          <el-menu-item index="1-2" class="el-icon-menu">选项2</el-menu-item>
+          <router-link to="users">
+          <el-menu-item index="1-2" class="el-icon-menu">用户列表</el-menu-item>
+          </router-link>
         </el-menu-item-group>
       </el-submenu>
      

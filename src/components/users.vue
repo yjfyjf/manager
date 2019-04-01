@@ -56,7 +56,13 @@
             plain
             icon="el-icon-delete"
           ></el-button>
-          <el-button size="medium" type="warning" plain icon="el-icon-check"></el-button>
+          <el-button
+            size="medium"
+            @click="showrole(scope.row)"
+            type="warning"
+            plain
+            icon="el-icon-check"
+          ></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -106,6 +112,27 @@
         <el-button type="primary" @click="submitedit('editform')">确 定</el-button>
       </div>
     </el-dialog>
+    <!-- 点击角色弹框 -->
+    <el-dialog title="分配角色" :visible.sync="roleFormVisible">
+      <el-form ref="editform" :rules="addRules">
+        <el-form-item label="当前用户" label-width="100px">{{userrole.username}}</el-form-item>
+
+        <el-form-item label="请选择角色" label-width="100px">
+          <el-select v-model="userrole.role_name" placeholder="请选择">
+            <el-option
+              v-for="item in rolelist"
+              :key="item.id"
+              :label="item.roleName"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="roleFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="submitrole('editform')">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -126,6 +153,12 @@ export default {
       addFormVisible: false,
       // 点击编辑用户是否弹框
       editFormVisible: false,
+      // 点击编辑用户是否弹框
+      roleFormVisible: false,
+      // 点击弹框的时候保存角色名
+      userrole: {},
+      // 角色下拉框的数据
+      rolelist: {},
       // 弹出表单的数据
       addform: {
         username: "",
@@ -225,10 +258,10 @@ export default {
         cancelButtonText: "那就等等",
         type: "warning"
       })
-        .then(async() => {
-        let res = await  this.$axios.delete(`users/${row.id}`)
+        .then(async () => {
+          let res = await this.$axios.delete(`users/${row.id}`);
           if (res.data.meta.status == 200) {
-            this.search()
+            this.search();
           }
         })
         .catch(() => {
@@ -237,6 +270,34 @@ export default {
             message: "你真好"
           });
         });
+    },
+    // 点击√ 角色弹框
+    async showrole(row) {
+      console.log(row);
+      // 保存角色名
+      this.userrole = row;
+      let res = await this.$axios.get("roles");
+      console.log(res);
+      // 赋值
+      this.rolelist = res.data.data;
+      // 弹出框
+      this.roleFormVisible = true;
+    },
+    // 点击确定重新获取数据
+    async submitrole(formName) {
+      // 发请求  带id过去
+      let res = await this.$axios.put(`users/${this.userrole.id}`, {
+        // role_name 点击前是角色名  点击后是id
+        rid: this.userrole.role_name
+      });
+      // 如果成功执行下面代码
+      if (res.data.meta.status === 200) {
+        // 关闭弹窗
+        this.roleFormVisible = false
+        // 重新渲染页面
+        this.search();
+      }
+      console.log(res);
     }
   },
   created() {
@@ -244,6 +305,11 @@ export default {
   }
 };
 </script>
+
+
+
+
+
 
 <style lang="scss">
 .user-container {
