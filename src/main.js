@@ -13,6 +13,9 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 
+// 注册全局面包屑
+import mybread from './components/myBread.vue'
+Vue.component('my-bread',mybread)
 
 // 引入axios
 import axios from 'axios'

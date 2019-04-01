@@ -15,7 +15,7 @@
     <el-container class="container">
       <!-- 左边 -->
       <el-aside width="200px" class="aside">
-        <el-menu router default-active="2" class="el-menu-vertical-demo">
+        <el-menu router default-active="users" class="el-menu-vertical-demo">
           <el-submenu :index="''+item.id" v-for="item in mentlist">
             <template slot="title">
               <i class="el-icon-location"></i>
@@ -58,7 +58,7 @@ export default {
       this.$router.push("/login");
     }
   },
-  // 发请求获取首页左侧权限列表
+  // 发请求获取首页左侧权限列表0.
   async created() {
   let res = await  this.$axios.get("menus")
   console.log(res);
