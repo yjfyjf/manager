@@ -22,7 +22,7 @@
               <span>{{item.authName}}</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item :index="item.path" class="el-icon-menu" v-for="it in item.children">
+              <el-menu-item :index="it.path" class="el-icon-menu" v-for="it in item.children">
                 {{it.authName}}
                 </el-menu-item>
               
@@ -73,7 +73,6 @@ export default {
 <style lang="scss">
 .index-container {
   height: 100%;
-  // display: flex;
   .container {
     display: flex;
     .aside {
@@ -99,6 +98,7 @@ export default {
     }
     .btn {
       margin-top: 10px;
+      margin-left: 0;
     }
   }
 }
