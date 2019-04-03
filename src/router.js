@@ -29,7 +29,10 @@ let routes = [
     // 登录页
     {
         path: '/login',
-        component: login
+        component: login,
+        meta:{
+            noLogin : true
+        },
     },
     // 首页
     {
@@ -38,44 +41,44 @@ let routes = [
         // 嵌套一个路由 
         children: [
             {
-            // 首页右侧的列表
-            path: 'users',
-            component: users
+                // 首页右侧的列表
+                path: 'users',
+                component: users
             },
             {
-            // 权限管理/角色列表
-            path: 'roles',
-            component: roles
+                // 权限管理/角色列表
+                path: 'roles',
+                component: roles
             },
             {
-            // 权限管理/权限列表
-            path: 'rights',
-            component: rights
+                // 权限管理/权限列表
+                path: 'rights',
+                component: rights
             },
             {
-            // 商品管理/商品列表
-            path:'goods',
-            component:goods
+                // 商品管理/商品列表
+                path: 'goods',
+                component: goods
             },
             {
-            // 商品管理/商品分类
-            path:'categories',
-            component:categories
+                // 商品管理/商品分类
+                path: 'categories',
+                component: categories
             },
             {
-            // 订单管理/订单列表
-            path:'orders',
-            component:orders
+                // 订单管理/订单列表
+                path: 'orders',
+                component: orders
             },
             {
-            // 商品管理/分类参数
-            path:'params',
-            component:params
+                // 商品管理/分类参数
+                path: 'params',
+                component: params
             },
             {
-            // 数据统计/数据报表
-            path:'reports',
-            component:reports
+                // 数据统计/数据报表
+                path: 'reports',
+                component: reports
             }
         ]
     }
@@ -83,6 +86,24 @@ let routes = [
 // 实例组件
 let router = new VueRouter({
     routes
+})
+
+// 导航守卫  前置守卫
+router.beforeEach((to, from, next) => {
+    // console.log(to);
+    // console.log(from);
+    // next()
+    
+    if (to.meta.noLogin === true) {
+        next()
+    } else {
+        if (window.sessionStorage.getItem("token")) {
+            next()
+        } else {
+            Vue.prototype.$message.error('老弟,先去登录')
+            next('/login')
+        }
+    }
 })
 // 暴露出去 让main引入
 export default router

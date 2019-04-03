@@ -6,9 +6,11 @@
     <!-- 表格 -->
     <el-table :data="userlist" style="width: 100%" border>
       <el-table-column type="index"></el-table-column>
-      <el-table-column prop="username" label="权限名称" width="300"></el-table-column>
-      <el-table-column prop="email" label="路径" width="300"></el-table-column>
-      <el-table-column prop="mobile" label="层级" width="300"></el-table-column>
+      <el-table-column prop="authName" label="权限名称" width="300"></el-table-column>
+      <el-table-column prop="path" label="路径" width="300"></el-table-column>
+      <el-table-column prop="level" label="层级" width="300">
+        <!-- <span>{{item.level}}</span> -->
+      </el-table-column>
     </el-table>
   
   </div>
@@ -16,8 +18,8 @@
 
 <script>
 export default {
-  // data() {
-  //   return {
+  data() {
+    return {
   //     // 总条数
   //     total: 0,
   //     sendData: {
@@ -25,8 +27,11 @@ export default {
   //       pagesize: 10,
   //       pagenum: 1
   //     },
-  //     // 用户数组
-  //     userlist: [],
+      // 用户数组
+      userlist: {
+        level:''
+      }
+      
   //     // 点击添加用户是否弹出框
   //     addFormVisible: false,
   //     // 点击编辑用户是否弹框
@@ -61,9 +66,9 @@ export default {
   //         { min: 6, max: 16, message: "长度在 6 到 16 个字符", trigger: "blur" }
   //       ]
   //     }
-  //   };
-  // },
-  // methods: {
+    };
+  },
+  methods: {
   //   async handleEdit(index, row) {
   //     console.log(index); //索引
   //     console.log(row); //数据
@@ -77,16 +82,26 @@ export default {
   //       this.editFormVisible = true;
   //     }
   //   },
-  //   // 搜索调用
-  //   async search() {
-  //     let res = await this.$axios.get("users", {
-  //       // headers: { Authorization: window.sessionStorage.getItem("token") },
-  //       params: this.sendData
-  //     });
-  //     // console.log(res);
-  //     this.total = res.data.data.total;
-  //     this.userlist = res.data.data.users;
-  //   },
+    // 搜索调用
+    async search() {
+      let res = await this.$axios.get("rights/list")
+        console.log(res);
+      // this.userlist = res.data.data;
+
+      this.userlist = res.data.data;
+      for( const level in res.data.data ){
+        this.userlist.level = res.data.data[level]
+      }
+      
+      // if (err = "0") {
+      //   this.userlist.level = "一级"
+      // }else if(this.userlist.level = "1"){
+      //   err = "二级"
+      // }else{
+      //   err= "三级"
+      // }
+
+    },
   //   // 调用接口修改用户状态
   //   statechange(row) {
   //     console.log(row);
@@ -191,10 +206,10 @@ export default {
   //     // 重新加载页面
   //     this.search()
   //   }
-  // },
-  // created() {
-  //   this.search();
-  // }
+  },
+  created() {
+    this.search();
+  }
 };
 </script>
 

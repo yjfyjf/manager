@@ -52,11 +52,11 @@ export default {
     }
   },
   beforeCreate() {
-    if (window.sessionStorage.getItem("token")) {
-    } else {
-      this.$message.error("不登录弄死你");
-      this.$router.push("/login");
-    }
+    // if (window.sessionStorage.getItem("token")) {
+    // } else {
+    //   this.$message.error("不登录弄死你");
+    //   this.$router.push("/login");
+    // }
   },
   // 发请求获取首页左侧权限列表0.
   async created() {

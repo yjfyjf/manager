@@ -5,14 +5,15 @@
     <!-- 输入框 -->
     <el-row>
       <el-col :span="12">
-        <el-button type="default" plain  @click="addFormVisible=true">添加用户</el-button>
+        <el-button type="default" plain  @click="addFormVisible=true">添加角色</el-button>
       </el-col>
     </el-row>
     <!-- 表格 -->
-    <el-table  style="width: 100%" border>
+    <el-table :data="userlist" style="width: 100%" border>
+      <el-table-column width="50"></el-table-column>
       <el-table-column type="index"></el-table-column>
-      <el-table-column  label="角色名称" width="280"></el-table-column>
-      <el-table-column label="角色描述" width="280"></el-table-column>
+      <el-table-column prop="roleName" label="角色名称" width="280"></el-table-column>
+      <el-table-column prop="roleDesc" label="角色描述" width="280"></el-table-column>
 
       <el-table-column label="操作" width="280">
         <template slot-scope="scope">
@@ -45,17 +46,20 @@
 
 <script>
 export default {
-  // data(){
-
-  // },
+  data(){
+    return{
+      // 角色的数组
+      userlist:[]
+    }
+  },
   methods: {
     async handleEdit(index, row) {
-      console.log(index); //索引
-      console.log(row); //数据
-      let res = await this.$axios.get(`users/${row.id}`);
-      console.log(res);
+      // console.log(index); //索引
+      // console.log(row); //数据
+      // let res = await this.$axios.get("roles");
+      // console.log(res);
       // 渲染数据
-      this.editform = res.data.data;
+      // this.editform = res.data.data;
 
       // if (res.data.meta.status == 200) {
       //   // 弹框
@@ -63,15 +67,12 @@ export default {
       // }
     },
     // 搜索调用
-    // async search() {
-    //   let res = await this.$axios.get("users", {
-    //     // headers: { Authorization: window.sessionStorage.getItem("token") },
-    //     params: this.sendData
-    //   });
-    //   // console.log(res);
-    //   this.total = res.data.data.total;
-    //   this.userlist = res.data.data.users;
-    // },
+    async search() {
+      let res = await this.$axios.get("roles")
+      console.log(res);
+      // this.total = res.data.data.total;
+      // this.userlist = res.data.rowKey.data;
+    },
     // 调用接口修改用户状态
     // statechange(row) {
     //   console.log(row);
@@ -177,9 +178,9 @@ export default {
     //   this.search()
     // }
   },
-  // created() {
-  //   this.search();
-  // }
+  created() {
+    this.search();
+  }
 };
 </script>
 
