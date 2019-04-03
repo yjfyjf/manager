@@ -24,9 +24,16 @@ import orders from './components/orders.vue'
 import params from './components/params.vue'
 // 引入数据统计/数据报表
 import reports from './components/reports.vue'
+// 统一的错误页
+import error from './components/error.vue'
 // 组件
 let routes = [
     // 登录页
+    {
+    // 错误页
+    path:'/error',
+    component:error
+    },
     {
         path: '/login',
         component: login,
@@ -93,6 +100,11 @@ router.beforeEach((to, from, next) => {
     // console.log(to);
     // console.log(from);
     // next()
+    // 判断用户输入的地址是否正确
+    if (to.matched.length === 0 ) {
+        Vue.prototype.$message.error('小老弟 地址不对呀 别搞瓢了')
+        next('./error')
+    }
     
     if (to.meta.noLogin === true) {
         next()
